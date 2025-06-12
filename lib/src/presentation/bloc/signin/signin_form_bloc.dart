@@ -42,5 +42,5 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
     });
   }
 
-  final SignIn _signInWithEmail;
+  final Login _signInWithEmail;
 }

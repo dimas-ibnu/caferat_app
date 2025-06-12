@@ -1,27 +1,43 @@
-import 'package:caferat_app/src/common/constants/key_constant.dart';
-import 'package:caferat_app/src/common/constants/url_constant.dart';
-import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:injectable/injectable.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class AuthRemoteDataSource {
   Future<void> login(String email, String password);
+
+  Future<void> register(String email, String password);
+
+  Future<void> logout();
+
+  Stream<User?> getCurrentUser();
+
+  User? getSignedInUser();
 }
 
+@Injectable(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final Dio dio = Dio();
+  final GoTrueClient _supabaseAuth = Supabase.instance.client.auth;
+  static const String _redirectUrl =
+      'io.supabase.flutterexample://signup-callback';
 
   @override
-  Future<void> login(String email, String password) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final response = await dio.post(
-        UrlConstant.login,
-        data: {'email': email, 'password': password},
+  Future<void> login(String email, String password) async =>
+      await _supabaseAuth.signInWithPassword(password: password, email: email);
+
+  @override
+  Future<void> register(String email, String password) async =>
+      await _supabaseAuth.signUp(
+        password: password,
+        email: email,
+        emailRedirectTo: _redirectUrl,
       );
-      final token = response.data['token'].toString();
-      await prefs.setString(KeyConstant.accessToken, token);
-    } catch (e) {
-      rethrow;
-    }
-  }
+
+  @override
+  Future<void> logout() async => await _supabaseAuth.signOut();
+
+  @override
+  Stream<User?> getCurrentUser() =>
+      _supabaseAuth.onAuthStateChange.map((event) => event.session?.user);
+
+  @override
+  User? getSignedInUser() => _supabaseAuth.currentUser;
 }
