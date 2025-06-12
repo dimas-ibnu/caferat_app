@@ -14,7 +14,11 @@ class AuthWatcherBloc extends Bloc<AuthWatcherEvent, AuthWatcherState> {
         case _AuthCheckRequest():
           emit(const AuthWatcherState.authenticating());
           final prefs = await SharedPreferences.getInstance();
+
           final token = prefs.getString(KeyConstant.accessToken);
+
+          print('AuthWatcherBloc: Token: $token');
+
           final showOnbording = prefs.getString(KeyConstant.onBoarding);
           if (showOnbording == null) {
             prefs.setString(KeyConstant.onBoarding, KeyConstant.onBoarding);

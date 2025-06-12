@@ -29,6 +29,8 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthWatcherBloc, AuthWatcherState>(
       listener: (context, state) {
+        print('SplashPage: AuthWatcherState: $state');
+
         switch (state) {
           case Authenticating():
             // Do nothing (or show a loader)
@@ -37,10 +39,10 @@ class _SplashPageState extends State<SplashPage> {
             context.pushReplacementNamed(AppRoutes.DASHBOARD_ROUTE_NAME);
             break;
           case IsFirstTime():
-            context.pushReplacementNamed(AppRoutes.LOGIN_ROUTE_NAME);
+            context.pushReplacementNamed(AppRoutes.ONBOARDING_ROUTE_NAME);
             break;
           case Unauthenticated():
-            context.pushReplacementNamed(AppRoutes.SIGNUP_ROUTE_NAME);
+            context.pushReplacementNamed(AppRoutes.LOGIN_ROUTE_NAME);
             break;
           default:
             context.pushReplacementNamed(AppRoutes.ONBOARDING_ROUTE_NAME);

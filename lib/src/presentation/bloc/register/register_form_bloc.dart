@@ -1,7 +1,9 @@
+import 'package:caferat_app/src/common/constants/key_constant.dart';
 import 'package:caferat_app/src/common/enum/request_state_enum.dart';
 import 'package:caferat_app/src/domain/usecases/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'register_form_event.dart';
 
@@ -19,15 +21,25 @@ class RegisterFormBloc extends Bloc<RegisterFormEvent, RegisterFormState> {
         case _RegisterWithEmail():
           emit(state.copyWith(state: RequestState.loading));
           await Future.delayed(Duration(seconds: 2));
-          final result = await _auth.doRegister(
-            state.email,
-            state.password,
-          );
+          final result = await _auth.doRegister(state.email, state.password);
           result.fold(
             (f) => emit(
               state.copyWith(state: RequestState.error, message: f.message),
             ),
-            (_) => emit(state.copyWith(state: RequestState.loaded)),
+            (authResponse) async {
+              // Save to SharedPreferences
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setString(
+                KeyConstant.accessToken,
+                authResponse.session?.accessToken ?? '',
+              );
+              await prefs.setString(
+                KeyConstant.userId,
+                authResponse.user?.id ?? '',
+              );
+
+              emit(state.copyWith(state: RequestState.loaded));
+            },
           );
           break;
 

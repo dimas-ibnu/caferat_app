@@ -11,7 +11,7 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this.dataSource);
   final AuthRemoteDataSource dataSource;
   @override
-  Future<Either<Failure, void>> login(String email, String password) async {
+  Future<Either<Failure, AuthResponse>> login(String email, String password) async {
     try {
       final result = await dataSource.login(email, password);
       return Right(result);
@@ -32,7 +32,7 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> register(String email, password) async {
+  Future<Either<Failure, AuthResponse>> register(String email, password) async {
     try {
       final result = await dataSource.register(email, password);
       return Right(result);
