@@ -34,8 +34,10 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Either<Failure, void>> register(String email, password) async {
     try {
-      final result = await dataSource.login(email, password);
+      final result = await dataSource.register(email, password);
       return Right(result);
+    } on AuthApiException catch (e) {
+      return Left(AuthFailure(e.message));
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {

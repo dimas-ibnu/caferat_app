@@ -1,10 +1,12 @@
 import 'package:caferat_app/src/common/constants/double_constant.dart';
 import 'package:caferat_app/src/common/enum/request_state_enum.dart';
 import 'package:caferat_app/src/common/popup/app_toast.dart';
-import 'package:caferat_app/src/presentation/bloc/signin/signin_form_bloc.dart';
+import 'package:caferat_app/src/common/routes/app_routes.dart';
+import 'package:caferat_app/src/presentation/bloc/login/signin_form_bloc.dart';
 import 'package:caferat_app/src/presentation/widgets/custom_text_form_field.dart';
 import 'package:caferat_app/src/presentation/widgets/primary_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter/material.dart';
@@ -235,7 +237,7 @@ class _SignInPageState extends State<SignInPage> {
         const SizedBox(width: DoubleConstant.spacing8),
         GestureDetector(
           onTap: () {
-            // Navigator.pushNamed(context, SIGN_UP);
+            context.goNamed(AppRoutes.SIGNUP_ROUTE_NAME);
           },
           child: Text(
             'Register',

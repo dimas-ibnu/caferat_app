@@ -4,7 +4,8 @@ import 'package:caferat_app/src/common/themes/app_theme.dart';
 import 'package:caferat_app/src/core/dependency/dependency_injection.dart'
     as di;
 import 'package:caferat_app/src/presentation/bloc/auth_watcher/auth_watcher_bloc.dart';
-import 'package:caferat_app/src/presentation/bloc/signin/signin_form_bloc.dart';
+import 'package:caferat_app/src/presentation/bloc/login/signin_form_bloc.dart';
+import 'package:caferat_app/src/presentation/bloc/register/register_form_bloc.dart';
 import 'package:caferat_app/src/presentation/cubit/theme/theme_cubit.dart';
 import 'package:caferat_app/src/untilities/app_bloc_observer.dart';
 import 'package:caferat_app/src/untilities/go_router_init.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => di.locator<AuthWatcherBloc>()),
         BlocProvider(create: (_) => di.locator<SignInFormBloc>()),
+        BlocProvider(create: (_) => di.locator<RegisterFormBloc>()),
         BlocProvider(create: (_) => di.locator<ThemeCubit>()),
       ],
       child: MaterialApp.router(

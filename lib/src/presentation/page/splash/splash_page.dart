@@ -40,7 +40,7 @@ class _SplashPageState extends State<SplashPage> {
             context.pushReplacementNamed(AppRoutes.LOGIN_ROUTE_NAME);
             break;
           case Unauthenticated():
-            context.pushReplacementNamed(AppRoutes.LOGIN_ROUTE_NAME);
+            context.pushReplacementNamed(AppRoutes.SIGNUP_ROUTE_NAME);
             break;
           default:
             context.pushReplacementNamed(AppRoutes.ONBOARDING_ROUTE_NAME);

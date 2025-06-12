@@ -37,7 +37,7 @@ GoRouter routerInit = GoRouter(
       name: AppRoutes.SIGNUP_ROUTE_NAME,
       path: AppRoutes.SIGNUP_ROUTE_PATH,
       builder: (BuildContext context, GoRouterState state) {
-        return const SignUpPage();
+        return const RegisterPage();
       },
     ),
 

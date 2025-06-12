@@ -1,25 +1,25 @@
 import 'package:caferat_app/src/common/enum/request_state_enum.dart';
-import 'package:caferat_app/src/domain/usecases/login.dart';
+import 'package:caferat_app/src/domain/usecases/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'signin_form_event.dart';
+part 'register_form_event.dart';
 
-part 'signin_form_state.dart';
-part 'signin_form_bloc.freezed.dart';
+part 'register_form_state.dart';
+part 'register_form_bloc.freezed.dart';
 
-class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
-  SignInFormBloc(this._signInWithEmail) : super(SignInFormState.initial()) {
-    on<SignInFormEvent>((event, emit) async {
+class RegisterFormBloc extends Bloc<RegisterFormEvent, RegisterFormState> {
+  RegisterFormBloc(this._auth) : super(RegisterFormState.initial()) {
+    on<RegisterFormEvent>((event, emit) async {
       switch (event) {
         case _Initial():
-          emit(SignInFormState.initial());
+          emit(RegisterFormState.initial());
           break;
 
-        case _SignInWithEmail():
+        case _RegisterWithEmail():
           emit(state.copyWith(state: RequestState.loading));
           await Future.delayed(Duration(seconds: 2));
-          final result = await _signInWithEmail.execute(
+          final result = await _auth.doRegister(
             state.email,
             state.password,
           );
@@ -42,5 +42,5 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
     });
   }
 
-  final Login _signInWithEmail;
+  final Auth _auth;
 }
