@@ -10,7 +10,7 @@ class CustomTextFormField extends StatelessWidget {
   final _debouncer = Debouncer(milliseconds: 500);
 
   CustomTextFormField({
-    Key? key,
+    super.key,
     this.controller,
     this.textFieldType = TextFieldType.text,
     this.hintText,
@@ -30,7 +30,7 @@ class CustomTextFormField extends StatelessWidget {
     this.textInputType,
     this.minLength = 1,
     this.minline = 1,
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final TextFieldType textFieldType;
@@ -172,7 +172,7 @@ class CustomTextFormField extends StatelessWidget {
         style: theme.textTheme.bodyMedium,
         inputFormatters: inputFormatters ?? [],
         keyboardType: textInputType ?? keyboardType(textFieldType),
-        validator: validator(textFieldType),
+        validator: validator(textFieldType).call,
         textInputAction: textInputAction,
         minLines: minline,
         decoration: InputDecoration(

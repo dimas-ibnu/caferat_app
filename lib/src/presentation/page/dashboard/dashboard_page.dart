@@ -19,7 +19,7 @@ class DashboardPage extends StatelessWidget {
 
               final supabase = Supabase.instance.client;
 
-              final accessToken = await prefs.getString(
+              final accessToken = prefs.getString(
                 KeyConstant.accessToken,
               );
 
